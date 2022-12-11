@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import Album from "./interfaces/Album";
+import { PostFeed } from "./components/PostFeed/PostFeed";
+import "./App.css";
+import { Login } from "./components/Login/Login";
+import { TopBar } from "./components/TopBar/TopBar";
+import { authContext } from ".";
 
-function App() {
+const App = () => {
+  const [albums, setAlbums] = useState<Array<Album>>([]);
+  const isAuthorized = false;
+  const getAlbums = async (): Promise<Array<Album>> => {
+    return await fetch("https://jsonplaceholder.typicode.com/albums")
+      .then((response) => response.json())
+      .then((data: Array<Album>) => data);
+  };
+
+  useEffect(() => {
+    getAlbums().then((data) => setAlbums(data));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <authContext.Consumer>
+      <TopBar />{" "}
+      {isAuthorized ? (
+        <>
+          <h1>Albums</h1>
+          <PostFeed albums={albums}></PostFeed>
+        </>
+      ) : (
+        <Login />
+      )}{" "}
+    </authContext.Consumer>
   );
-}
+};
 
 export default App;

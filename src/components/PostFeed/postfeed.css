@@ -1,0 +1,19 @@
+.post-feed {
+  display: grid;
+  max-width: 60vw;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 2rem auto;
+  gap: 1rem;
+}
+
+.album {
+  max-width: 60vw;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  background: #f1d592;
+  border: 1px solid #cab073;
+  border-radius: 10px;
+  overflow: hidden;
+}
